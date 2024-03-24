@@ -1,45 +1,17 @@
 #pragma once
-
 #include "bakkesmod/plugin/bakkesmodplugin.h"
-#include "bakkesmod/plugin/pluginwindow.h"
-#include "bakkesmod/plugin/PluginSettingsWindow.h"
 
-#include "version.h"
-constexpr auto plugin_version = stringify(VERSION_MAJOR) "." stringify(VERSION_MINOR) "." stringify(VERSION_PATCH) "." stringify(VERSION_BUILD);
-
-
-class StatusChanger: public BakkesMod::Plugin::BakkesModPlugin/*, public BakkesMod::Plugin::PluginSettingsWindow*//*, public BakkesMod::Plugin::PluginWindow*/
+class StatusChanger : public BakkesMod::Plugin::BakkesModPlugin
 {
+private:
+    std::shared_ptr<bool> showStatusChange; // Add a boolean shared pointer to toggle status change visibility
 
-	//std::shared_ptr<bool> enabled;
+public:
+    void onLoad() override;
+    void onUnload() override;
 
-	//Boilerplate
-	virtual void onLoad();
-	virtual void onUnload();
-
-	// Inherited via PluginSettingsWindow
-	/*
-	void RenderSettings() override;
-	std::string GetPluginName() override;
-	void SetImGuiContext(uintptr_t ctx) override;
-	*/
-
-	// Inherited via PluginWindow
-	/*
-
-	bool isWindowOpen_ = false;
-	bool isMinimized_ = false;
-	std::string menuTitle_ = "StatusChanger";
-
-	virtual void Render() override;
-	virtual std::string GetMenuName() override;
-	virtual std::string GetMenuTitle() override;
-	virtual void SetImGuiContext(uintptr_t ctx) override;
-	virtual bool ShouldBlockInput() override;
-	virtual bool IsActiveOverlay() override;
-	virtual void OnOpen() override;
-	virtual void OnClose() override;
-	
-	*/
+    void Render(CanvasWrapper canvas);
+    void RenderSettings();
+    bool IsActiveOverlay();
+    void ChangeStatus(std::string newStatus); // Add a method to change the player's status
 };
-
